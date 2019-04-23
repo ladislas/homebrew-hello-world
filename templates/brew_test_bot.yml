@@ -4,6 +4,7 @@ parameters:
   name: ''
   displayName: ''
   vmImage: ''
+  xcode: ''
 
 jobs:
 
@@ -16,19 +17,28 @@ jobs:
   dependsOn: []
 
   variables:
+    xcode_version: ${{ parameters.xcode }}
     artifact_name: ${{ parameters.vmImage }}
     artifact_json: $(artifact_name).bottle.json
     artifact_bottle: $(artifact_name).bottle.tar.gz
 
   steps:
-    - bash: |
-        echo "Install SSH Key"
-      displayName: Install SSH Key
+    # - bash: |
+    #     echo "Install SSH Key"
+    #   displayName: Install SSH Key
 
     - bash: |
-        echo "Running brew test-bot"
-        sw_vers > $(artifact_json)
-        touch $(artifact_bottle)
+        set -e
+        sudo xcode-select --switch /Applications/$(xcode_version).app/Contents/Developer
+        brew update
+        HOMEBREW_TAP_DIR="/usr/local/Homebrew/Library/Taps/ladislas/homebrew-hello-world"
+        mkdir -p "$HOMEBREW_TAP_DIR"
+        rm -rf "$HOMEBREW_TAP_DIR"
+        ln -s "$PWD" "$HOMEBREW_TAP_DIR"
+      displayName: Setup environment
+
+    - bash: |
+        brew test-bot Formula/*.rb --root-url=$(bintray_root_url)
       displayName: Run brew test-bot
 
     - bash: |
@@ -40,14 +50,3 @@ jobs:
         artifactName: $(artifact_prefix)-$(artifact_name)
         targetPath: $(Build.ArtifactStagingDirectory)
       displayName: Publish $(artifact_prefix)-$(artifact_name)
-
-    # - bash: |
-    #     set -e
-    #     sudo xcode-select --switch /Applications/Xcode_10.1.app/Contents/Developer
-    #     brew update
-    #     HOMEBREW_TAP_DIR="/usr/local/Homebrew/Library/Taps/ladislas/homebrew-hello-world"
-    #     mkdir -p "$HOMEBREW_TAP_DIR"
-    #     rm -rf "$HOMEBREW_TAP_DIR"
-    #     ln -s "$PWD" "$HOMEBREW_TAP_DIR"
-    #     brew test-bot $(package)
-    #   displayName: Run brew test-bot
