@@ -25,7 +25,6 @@ jobs:
         sudo xcode-select --switch /Applications/$(xcode_version).app/Contents/Developer
         brew update
         brew update-reset /usr/local/Homebrew
-        brew cleanup -s
         HOMEBREW_TAP_DIR="/usr/local/Homebrew/Library/Taps/$(github_user)/$(github_repo)"
         mkdir -p "$HOMEBREW_TAP_DIR"
         rm -rf "$HOMEBREW_TAP_DIR"
