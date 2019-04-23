@@ -1,15 +1,51 @@
+# File: azure-pipelines.yml
+
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - README.md
+
+pr:
+  branches:
+    include:
+    - master
+    - develop
+  paths:
+    exclude:
+    - README.md
+
 jobs:
-- job: macOS
-  pool:
+
+- template: templates/brew_test_bot.yml
+  parameters:
+    name: brew_test_bot_macOS_10_13
+    displayName: Create bottles for macOS High Sierra (10.13)
     vmImage: macOS-10.13
-  steps:
-    - bash: |
-        set -e
-        sudo xcode-select --switch /Applications/Xcode_10.1.app/Contents/Developer
-        brew update
-        HOMEBREW_TAP_DIR="/usr/local/Homebrew/Library/Taps/ladislas/homebrew-hello-world"
-        mkdir -p "$HOMEBREW_TAP_DIR"
-        rm -rf "$HOMEBREW_TAP_DIR"
-        ln -s "$PWD" "$HOMEBREW_TAP_DIR"
-        brew test-bot
-      displayName: Run brew test-bot
+
+- template: templates/brew_test_bot.yml
+  parameters:
+    name: brew_test_bot_macOS_10_14
+    displayName: Create bottles for macOS High Mojave (10.14)
+    vmImage: macOS-10.14
+
+# - job: brew_test_bot_macOS_10.14
+#   displayName: "Create bottles for macOS High Mojave (10.14)"
+
+#   pool:
+#     vmImage: macOS-10.14
+
+#   strategy:
+#     maxParallel: 8
+#     matrix:
+#       hello-world:
+#         package: hello-world
+
+
+# - job: brew_test_bot_ci_upload
+#   displayName: "Upload bottles"
+
+#   pool:
+#     vmImage: macOS-10.14

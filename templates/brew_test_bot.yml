@@ -1,0 +1,44 @@
+# File: templates/brew_test_bot.yml
+
+parameters:
+  name: ''
+  displayName: ''
+  vmImage: ''
+
+jobs:
+
+- job: ${{ parameters.name }}
+  displayName: "${{ parameters.displayName }}"
+
+  pool:
+    vmImage: ${{ parameters.vmImage }}
+
+  # strategy:
+  #   maxParallel: 8
+  #   matrix:
+  #     ${{ each formula in parameters.formulae }}:
+  #       formula: ${{ formula }}
+
+  steps:
+    - bash: |
+        echo "Install SSH Key"
+      displayName: Install SSH Key
+
+    - bash: |
+        echo "Running brew test-bot"
+      displayName: Run brew test-bot
+
+    - bash: |
+        echo "Saving artifacts for later use"
+      displayName: Save artifacts for
+
+    # - bash: |
+    #     set -e
+    #     sudo xcode-select --switch /Applications/Xcode_10.1.app/Contents/Developer
+    #     brew update
+    #     HOMEBREW_TAP_DIR="/usr/local/Homebrew/Library/Taps/ladislas/homebrew-hello-world"
+    #     mkdir -p "$HOMEBREW_TAP_DIR"
+    #     rm -rf "$HOMEBREW_TAP_DIR"
+    #     ln -s "$PWD" "$HOMEBREW_TAP_DIR"
+    #     brew test-bot $(package)
+    #   displayName: Run brew test-bot
