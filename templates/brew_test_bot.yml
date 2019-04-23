@@ -24,7 +24,7 @@ jobs:
 
     - bash: |
         set -e
-        sudo xcode-select --switch /Applications/Xcode_10.2.app/Contents/Developer
+        sudo xcode-select --switch /Applications/$(xcode_version).app/Contents/Developer
         brew update
         brew update-reset /usr/local/Homebrew
         HOMEBREW_TAP_DIR="/usr/local/Homebrew/Library/Taps/$(github_user)/$(github_repo)"
