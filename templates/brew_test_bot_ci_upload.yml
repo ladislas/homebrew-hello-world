@@ -12,25 +12,42 @@ jobs:
     vmImage: macOS-10.14
 
   steps:
+
+    - task: InstallSSHKey@0
+      inputs:
+        hostName: $(ssh_hostname)
+        sshPublicKey: $(ssh_public_key)
+        #sshPassphrase: $(ssh_passphrase) # Optional
+        sshKeySecureFile: $(ssh_secure_file)
+
     - bash: |
-        echo "Install SSH Key"
-        HOMEBREW_NO_AUTO_UPDATE=1 brew install tree
-      displayName: Install SSH Key
+        set -e
+        sudo xcode-select --switch /Applications/$(xcode_version).app/Contents/Developer
+        brew update
+        brew update-reset /usr/local/Homebrew
+        brew cleanup -s
+        HOMEBREW_TAP_DIR="/usr/local/Homebrew/Library/Taps/$(github_user)/$(github_repo)"
+        mkdir -p "$HOMEBREW_TAP_DIR"
+        rm -rf "$HOMEBREW_TAP_DIR"
+        ln -s "$PWD" "$HOMEBREW_TAP_DIR"
+        brew install tree
+        brew tap homebrew/homebrew-test-bot
+      displayName: Setup environment
 
-    # - task: DownloadPipelineArtifact@1
-    #   inputs:
-    #     itemPattern: '**'
-    #     downloadPath: $(System.DefaultWorkingDirectory)
-    #   displayName: Download artifacts
+    - task: DownloadPipelineArtifact@1
+      inputs:
+        itemPattern: '**'
+        downloadPath: $(System.DefaultWorkingDirectory)
+      displayName: Download artifacts
 
-    # - bash: |
-    #     tree
-    #     mv $(artifact_prefix)-*/* ./
-    #     rm -rf $(artifact_prefix)-*
-    #     cat *.json
-    #     tree
-    #   displayName: Move bottle files to $cwd
+    - bash: |
+        tree
+        mv $(artifact_prefix)-*/* ./
+        rm -rf $(artifact_prefix)-*
+        cat *.json
+        tree
+      displayName: Move bottle files to $cwd
 
-    # - bash: |
-    #     brew test-bot --ci-upload --bintray-org="$(bintray_org)" --git-name=ladislas --git-email=ladislas@leka.io
+    - bash: |
+        brew test-bot --ci-upload --bintray-org=$(bintray_org) --git-name=$(github_user) --git-email=$(github_email)
 
