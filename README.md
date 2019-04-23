@@ -1,3 +1,5 @@
+[![Build Status](https://dev.azure.com/ladisonline/homebrew-hello-world/_apis/build/status/ladislas.homebrew-hello-world?branchName=master)](https://dev.azure.com/ladisonline/homebrew-hello-world/_build/latest?definitionId=3&branchName=master)
+
 # Hello, World!
 
 ## About

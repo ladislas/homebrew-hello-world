@@ -13,12 +13,6 @@ jobs:
   pool:
     vmImage: ${{ parameters.vmImage }}
 
-  # strategy:
-  #   maxParallel: 8
-  #   matrix:
-  #     ${{ each formula in parameters.formulae }}:
-  #       formula: ${{ formula }}
-
   steps:
     - bash: |
         echo "Install SSH Key"

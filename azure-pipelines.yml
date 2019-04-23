@@ -17,35 +17,34 @@ pr:
     exclude:
     - README.md
 
-jobs:
+stages:
 
-- template: templates/brew_test_bot.yml
-  parameters:
-    name: brew_test_bot_macOS_10_13
-    displayName: Create bottles for macOS High Sierra (10.13)
-    vmImage: macOS-10.13
+  - stage: brew_test_bot
+    displayName: Create bottles
 
-- template: templates/brew_test_bot.yml
-  parameters:
-    name: brew_test_bot_macOS_10_14
-    displayName: Create bottles for macOS High Mojave (10.14)
-    vmImage: macOS-10.14
+    jobs:
+      - template: templates/brew_test_bot.yml
+        parameters:
+          name: brew_test_bot_macOS_10_13
+          displayName: for macOS High Sierra (10.13)
+          vmImage: macOS-10.13
 
-# - job: brew_test_bot_macOS_10.14
-#   displayName: "Create bottles for macOS High Mojave (10.14)"
-
-#   pool:
-#     vmImage: macOS-10.14
-
-#   strategy:
-#     maxParallel: 8
-#     matrix:
-#       hello-world:
-#         package: hello-world
+      - template: templates/brew_test_bot.yml
+        parameters:
+          name: brew_test_bot_macOS_10_14
+          displayName: for macOS High Mojave (10.14)
+          vmImage: macOS-10.14
 
 
-# - job: brew_test_bot_ci_upload
-#   displayName: "Upload bottles"
+  - stage: brew_test_bot_ci_upload
+    displayName: Upload bottles
 
-#   pool:
-#     vmImage: macOS-10.14
+    dependsOn:
+      - brew_test_bot
+
+    condition: succeeded()
+
+    jobs:
+      - template: templates/brew_test_bot_ci_upload.yml
+        parameters:
+          name: Upload bottles

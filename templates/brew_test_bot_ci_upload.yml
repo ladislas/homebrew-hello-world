@@ -1,1 +1,38 @@
 # File: templates/brew_test_bot_ci_upload.yml
+
+parameters:
+  name: ''
+
+jobs:
+
+- job: brew_test_bot_ci_upload
+  displayName: Upload bottles
+
+  pool:
+    vmImage: macOS-10.14
+
+  steps:
+    - bash: |
+        echo "Install SSH Key"
+      displayName: Install SSH Key
+
+    - bash: |
+        echo "Pulling artifacts from previous jobs"
+      displayName: Pull artifacts
+
+    - bash: |
+        echo "Running brew test-bot --ci-upload"
+      displayName: Run brew test-bot --ci-upload
+
+
+
+    # - bash: |
+    #     set -e
+    #     sudo xcode-select --switch /Applications/Xcode_10.1.app/Contents/Developer
+    #     brew update
+    #     HOMEBREW_TAP_DIR="/usr/local/Homebrew/Library/Taps/ladislas/homebrew-hello-world"
+    #     mkdir -p "$HOMEBREW_TAP_DIR"
+    #     rm -rf "$HOMEBREW_TAP_DIR"
+    #     ln -s "$PWD" "$HOMEBREW_TAP_DIR"
+    #     brew test-bot $(package)
+    #   displayName: Run brew test-bot
