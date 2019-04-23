@@ -28,7 +28,7 @@ jobs:
     #   displayName: Install SSH Key
 
     - bash: |
-        echo 'puts ENV["$(System.PullRequest.PullRequestNumber)"]' | ruby
+        echo 'puts ENV["UPSTREAM_PULL_REQUEST"]' | ruby
       #   set -e
       #   sudo xcode-select --switch /Applications/$(xcode_version).app/Contents/Developer
       #   brew update
