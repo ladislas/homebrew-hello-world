@@ -14,25 +14,20 @@ jobs:
   steps:
     - bash: |
         echo "Install SSH Key"
+        HOMEBREW_NO_AUTO_UPDATE=1 brew install tree
       displayName: Install SSH Key
 
-    - bash: |
-        echo "Pulling artifacts from previous jobs"
-      displayName: Pull artifacts
+    - task: DownloadPipelineArtifact@1
+      inputs:
+        itemPattern: '**'
+        downloadPath: $(System.DefaultWorkingDirectory)
+      displayName: Download artifacts
 
     - bash: |
+        tree
+        mv $(artifact_prefix)-*/* ./
+        rm -rf $(artifact_prefix)-*
+        cat *.json
+        tree
         echo "Running brew test-bot --ci-upload"
       displayName: Run brew test-bot --ci-upload
-
-
-
-    # - bash: |
-    #     set -e
-    #     sudo xcode-select --switch /Applications/Xcode_10.1.app/Contents/Developer
-    #     brew update
-    #     HOMEBREW_TAP_DIR="/usr/local/Homebrew/Library/Taps/ladislas/homebrew-hello-world"
-    #     mkdir -p "$HOMEBREW_TAP_DIR"
-    #     rm -rf "$HOMEBREW_TAP_DIR"
-    #     ln -s "$PWD" "$HOMEBREW_TAP_DIR"
-    #     brew test-bot $(package)
-    #   displayName: Run brew test-bot

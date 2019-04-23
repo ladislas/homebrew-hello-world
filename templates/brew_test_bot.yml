@@ -13,6 +13,13 @@ jobs:
   pool:
     vmImage: ${{ parameters.vmImage }}
 
+  dependsOn: []
+
+  variables:
+    artifact_name: ${{ parameters.vmImage }}
+    artifact_json: $(artifact_name).bottle.json
+    artifact_bottle: $(artifact_name).bottle.tar.gz
+
   steps:
     - bash: |
         echo "Install SSH Key"
@@ -20,11 +27,19 @@ jobs:
 
     - bash: |
         echo "Running brew test-bot"
+        sw_vers > $(artifact_json)
+        touch $(artifact_bottle)
       displayName: Run brew test-bot
 
     - bash: |
-        echo "Saving artifacts for later use"
-      displayName: Save artifacts for
+        cp *.bottle.* $(Build.ArtifactStagingDirectory)
+      displayName: Copy json & bottle files
+
+    - task: PublishPipelineArtifact@0
+      inputs:
+        artifactName: $(artifact_prefix)-$(artifact_name)
+        targetPath: $(Build.ArtifactStagingDirectory)
+      displayName: Publish $(artifact_prefix)-$(artifact_name)
 
     # - bash: |
     #     set -e

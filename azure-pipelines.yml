@@ -17,6 +17,12 @@ pr:
     exclude:
     - README.md
 
+variables:
+  - name: artifact_prefix
+    value: bottles
+  - name: artifact_prefix
+    value: bottles
+
 stages:
 
   - stage: brew_test_bot
@@ -25,15 +31,21 @@ stages:
     jobs:
       - template: templates/brew_test_bot.yml
         parameters:
+          name: brew_test_bot_macOS_10_14
+          displayName: for macOS Mojave (10.14)
+          vmImage: macOS-10.14
+
+      - template: templates/brew_test_bot.yml
+        parameters:
           name: brew_test_bot_macOS_10_13
           displayName: for macOS High Sierra (10.13)
           vmImage: macOS-10.13
 
-      - template: templates/brew_test_bot.yml
-        parameters:
-          name: brew_test_bot_macOS_10_14
-          displayName: for macOS High Mojave (10.14)
-          vmImage: macOS-10.14
+      # - template: templates/brew_test_bot.yml
+      #   parameters:
+      #     name: brew_test_bot_ubuntu_16_04
+      #     displayName: for Ubuntu 16.04
+      #     vmImage: ubuntu-16.04
 
 
   - stage: brew_test_bot_ci_upload
