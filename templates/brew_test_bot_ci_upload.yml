@@ -49,4 +49,9 @@ jobs:
 
     - bash: |
         brew test-bot --ci-upload --bintray-org=$(bintray_org) --git-name=$(github_user) --git-email=$(github_email)
+      displayName: Run brew test-bot --ci-upload
+      env:
+        HOMEBREW_BINTRAY_USER: $(HOMEBREW_BINTRAY_USER)
+        HOMEBREW_BINTRAY_KEY: $(HOMEBREW_BINTRAY_KEY)
+        UPSTREAM_PULL_REQUEST: $(UPSTREAM_PULL_REQUEST)
 
