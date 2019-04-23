@@ -17,17 +17,20 @@ jobs:
         HOMEBREW_NO_AUTO_UPDATE=1 brew install tree
       displayName: Install SSH Key
 
-    - task: DownloadPipelineArtifact@1
-      inputs:
-        itemPattern: '**'
-        downloadPath: $(System.DefaultWorkingDirectory)
-      displayName: Download artifacts
+    # - task: DownloadPipelineArtifact@1
+    #   inputs:
+    #     itemPattern: '**'
+    #     downloadPath: $(System.DefaultWorkingDirectory)
+    #   displayName: Download artifacts
 
-    - bash: |
-        tree
-        mv $(artifact_prefix)-*/* ./
-        rm -rf $(artifact_prefix)-*
-        cat *.json
-        tree
-        echo "Running brew test-bot --ci-upload"
-      displayName: Run brew test-bot --ci-upload
+    # - bash: |
+    #     tree
+    #     mv $(artifact_prefix)-*/* ./
+    #     rm -rf $(artifact_prefix)-*
+    #     cat *.json
+    #     tree
+    #   displayName: Move bottle files to $cwd
+
+    # - bash: |
+    #     brew test-bot --ci-upload --bintray-org="$(bintray_org)" --git-name=ladislas --git-email=ladislas@leka.io
+

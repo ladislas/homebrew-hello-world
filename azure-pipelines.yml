@@ -40,12 +40,12 @@ stages:
           vmImage: macOS-10.14
           xcode: Xcode_10.2
 
-      - template: templates/brew_test_bot.yml
-        parameters:
-          name: brew_test_bot_macOS_10_13
-          displayName: for macOS High Sierra (10.13)
-          vmImage: macOS-10.13
-          xcode: Xcode_10.1
+      # - template: templates/brew_test_bot.yml
+      #   parameters:
+      #     name: brew_test_bot_macOS_10_13
+      #     displayName: for macOS High Sierra (10.13)
+      #     vmImage: macOS-10.13
+      #     xcode: Xcode_10.1
 
       # - template: templates/brew_test_bot.yml
       #   parameters:
@@ -54,15 +54,15 @@ stages:
       #     vmImage: ubuntu-16.04
 
 
-  - stage: brew_test_bot_ci_upload
-    displayName: Upload bottles
+  # - stage: brew_test_bot_ci_upload
+  #   displayName: Upload bottles
 
-    dependsOn:
-      - brew_test_bot
+  #   dependsOn:
+  #     - brew_test_bot
 
-    condition: succeeded()
+  #   condition: succeeded()
 
-    jobs:
-      - template: templates/brew_test_bot_ci_upload.yml
-        parameters:
-          name: Upload bottles
+  #   jobs:
+  #     - template: templates/brew_test_bot_ci_upload.yml
+  #       parameters:
+  #         name: Upload bottles
