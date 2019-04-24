@@ -19,22 +19,19 @@ jobs:
   variables:
     xcode_version: ${{ parameters.xcode }}
     artifact_name: ${{ parameters.vmImage }}
-    artifact_json: $(artifact_name).bottle.json
-    artifact_bottle: $(artifact_name).bottle.tar.gz
 
   steps:
-    # - bash: |
-    #     echo "Install SSH Key"
-    #   displayName: Install SSH Key
 
     - bash: |
         set -e
         sudo xcode-select --switch /Applications/$(xcode_version).app/Contents/Developer
         brew update
-        HOMEBREW_TAP_DIR="/usr/local/Homebrew/Library/Taps/ladislas/homebrew-hello-world"
+        brew update-reset /usr/local/Homebrew
+        HOMEBREW_TAP_DIR="/usr/local/Homebrew/Library/Taps/$(github_user)/$(github_repo)"
         mkdir -p "$HOMEBREW_TAP_DIR"
         rm -rf "$HOMEBREW_TAP_DIR"
         ln -s "$PWD" "$HOMEBREW_TAP_DIR"
+        brew tap homebrew/homebrew-test-bot
       displayName: Setup environment
 
     - bash: |
