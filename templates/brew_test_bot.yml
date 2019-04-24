@@ -25,17 +25,17 @@ jobs:
     - bash: |
         set -e
         sudo xcode-select --switch /Applications/$(xcode_version).app/Contents/Developer
-        brew update
         brew update-reset /usr/local/Homebrew
         HOMEBREW_TAP_DIR="/usr/local/Homebrew/Library/Taps/$(github_user)/$(github_repo)"
         mkdir -p "$HOMEBREW_TAP_DIR"
         rm -rf "$HOMEBREW_TAP_DIR"
         ln -s "$PWD" "$HOMEBREW_TAP_DIR"
-        brew tap homebrew/homebrew-test-bot
+        brew tap $(test_bot_repo)
+        git -C /usr/local/Homebrew/Library/Taps/$(test_bot_repo) checkout feature/push-only-tags
       displayName: Setup environment
 
     - bash: |
-        brew test-bot Formula/*.rb --root-url=$(bintray_root_url)
+        brew test-bot --root-url=$(bintray_root_url)
       displayName: Run brew test-bot
 
     - bash: |
