@@ -35,7 +35,7 @@ jobs:
       displayName: Setup environment
 
     - bash: |
-        brew test-bot --root-url=$(bintray_root_url)
+        brew test-bot Formula/*.rb --root-url=$(bintray_root_url)
       displayName: Run brew test-bot
 
     - bash: |
