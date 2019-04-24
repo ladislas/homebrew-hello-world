@@ -25,6 +25,9 @@ variables:
   - name: artifact_prefix
     value: bottles
 
+  - name: test_bot_repo
+    value: ladislas/homebrew-test-bot
+
   - name: github_user
     value: ladislas
   - name: github_email
