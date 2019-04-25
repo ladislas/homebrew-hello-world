@@ -30,7 +30,7 @@ jobs:
         ln -s "$PWD" "$HOMEBREW_TAP_DIR"
         brew install tree
         brew tap --full $(test_bot_repo)
-        git -C /usr/local/Homebrew/Library/Taps/$(test_bot_repo) checkout --track origin/feature/push-only-tags
+        git -C /usr/local/Homebrew/Library/Taps/$(test_bot_repo) checkout --track origin/feature/push-only-tags-private
       displayName: Setup environment
 
     - task: DownloadPipelineArtifact@1
@@ -48,6 +48,7 @@ jobs:
       displayName: Move bottle files to $cwd
 
     - bash: |
+        git branch
         brew test-bot --ci-upload --bintray-org=$(bintray_org) --git-name=$(github_user) --git-email=$(github_email)
       displayName: Run brew test-bot --ci-upload
       env:
