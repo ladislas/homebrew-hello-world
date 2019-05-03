@@ -22,11 +22,8 @@ variables:
   - group: bintray
   - group: ssh
 
-  - name: artifact_prefix
-    value: bottles
-
   - name: test_bot_repo
-    value: ladislas/homebrew-test-bot
+    value: homebrew/homebrew-test-bot
 
   - name: github_user
     value: ladislas
@@ -51,12 +48,16 @@ variables:
   - name: ssh_secure_file
     value: $(ssh.secure_file)
 
-  - name: UPSTREAM_PULL_REQUEST
-    value: $(System.PullRequest.PullRequestNumber)
   - name: HOMEBREW_BINTRAY_KEY
     value: $(bintray.key)
   - name: HOMEBREW_BINTRAY_USER
     value: $(bintray.user)
+
+  - name: UPSTREAM_GIT_URL
+    value: $(Build.Repository.Uri)
+  - name: UPSTREAM_PULL_REQUEST
+    value: $(System.PullRequest.PullRequestNumber)
+
 
 stages:
 
