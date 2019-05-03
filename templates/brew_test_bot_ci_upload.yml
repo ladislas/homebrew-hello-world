@@ -29,8 +29,8 @@ jobs:
         rm -rf "$HOMEBREW_TAP_DIR"
         ln -s "$PWD" "$HOMEBREW_TAP_DIR"
         brew install tree
-        brew tap --full $(test_bot_repo)
-        git -C /usr/local/Homebrew/Library/Taps/$(test_bot_repo) checkout --track origin/feature/push-only-tags-private
+        brew tap $(test_bot_repo)
+        git log --graph --decorate --oneline
       displayName: Setup environment
 
     - task: DownloadPipelineArtifact@1
@@ -40,18 +40,20 @@ jobs:
       displayName: Download artifacts
 
     - bash: |
+        echo UPSTREAM_GIT_URL:      $(UPSTREAM_GIT_URL)
+        echo UPSTREAM_PULL_REQUEST: $(UPSTREAM_PULL_REQUEST)
         tree
-        mv $(artifact_prefix)-*/* ./
-        rm -rf $(artifact_prefix)-*
+        mv *-bottle-*/* ./
+        rm -rf *-bottle-*
         cat *.json
         tree
-      displayName: Move bottle files to $cwd
+      displayName: Move bottle files to cwd
 
     - bash: |
-        git branch
         brew test-bot --ci-upload --bintray-org=$(bintray_org) --git-name=$(github_user) --git-email=$(github_email)
       displayName: Run brew test-bot --ci-upload
       env:
         HOMEBREW_BINTRAY_USER: $(HOMEBREW_BINTRAY_USER)
         HOMEBREW_BINTRAY_KEY: $(HOMEBREW_BINTRAY_KEY)
+        UPSTREAM_GIT_URL: $(UPSTREAM_GIT_URL)
         UPSTREAM_PULL_REQUEST: $(UPSTREAM_PULL_REQUEST)
