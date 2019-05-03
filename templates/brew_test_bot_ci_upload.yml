@@ -29,7 +29,8 @@ jobs:
         rm -rf "$HOMEBREW_TAP_DIR"
         ln -s "$PWD" "$HOMEBREW_TAP_DIR"
         brew install tree
-        brew tap $(test_bot_repo)
+        brew tap --full $(test_bot_repo)
+        git -C /usr/local/Homebrew/Library/Taps/$(test_bot_repo) checkout --track origin/$(test_bot_repo_branch)
         git log --graph --decorate --oneline
       displayName: Setup environment
 

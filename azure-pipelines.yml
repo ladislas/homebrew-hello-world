@@ -23,7 +23,9 @@ variables:
   - group: ssh
 
   - name: test_bot_repo
-    value: homebrew/homebrew-test-bot
+    value: ladislas/homebrew-test-bot
+  - name: test_bot_repo_branch
+    value: feature/fix-tap-formulae-detection
 
   - name: github_user
     value: ladislas
