@@ -30,13 +30,24 @@ jobs:
         mkdir -p "$HOMEBREW_TAP_DIR"
         rm -rf "$HOMEBREW_TAP_DIR"
         ln -s "$PWD" "$HOMEBREW_TAP_DIR"
-        brew tap --full $(test_bot_repo)
-        git -C /usr/local/Homebrew/Library/Taps/$(test_bot_repo) checkout --track origin/feature/push-only-tags-private
+        brew tap $(test_bot_repo)
+        git log --graph --decorate --oneline
       displayName: Setup environment
 
     - bash: |
-        brew test-bot Formula/*.rb --root-url=$(bintray_root_url)
+        echo UPSTREAM_GIT_URL:      $(UPSTREAM_GIT_URL)
+        echo UPSTREAM_PULL_REQUEST: $(UPSTREAM_PULL_REQUEST)
+        brew test-bot --root-url=$(bintray_root_url)
       displayName: Run brew test-bot
+      env:
+        UPSTREAM_GIT_URL: $(UPSTREAM_GIT_URL)
+        UPSTREAM_PULL_REQUEST: $(UPSTREAM_PULL_REQUEST)
+
+    - script: |
+        FORMULA="$(ls *.bottle.json | sed 's/--.*//g')"
+        echo "Formula name is: $FORMULA"
+        echo '##vso[task.setvariable variable=formula]$FORMULA'
+      displayName: Set formula variable
 
     - bash: |
         cp *.bottle.* $(Build.ArtifactStagingDirectory)
@@ -44,6 +55,6 @@ jobs:
 
     - task: PublishPipelineArtifact@0
       inputs:
-        artifactName: $(artifact_prefix)-$(artifact_name)
+        artifactName: $(formula)-bottle-$(artifact_name)
         targetPath: $(Build.ArtifactStagingDirectory)
-      displayName: Publish $(artifact_prefix)-$(artifact_name)
+      displayName: Publish $(formula)-bottle-$(artifact_name)
