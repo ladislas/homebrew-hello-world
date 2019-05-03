@@ -31,7 +31,6 @@ jobs:
         rm -rf "$HOMEBREW_TAP_DIR"
         ln -s "$PWD" "$HOMEBREW_TAP_DIR"
         brew tap --full $(test_bot_repo)
-        cp -rf /usr/local/Homebrew/Library/Taps/$(test_bot_repo) /usr/local/Homebrew/Library/Taps/homebrew/homebrew-test-bot
         git log --graph --decorate --oneline
       displayName: Setup environment
 
