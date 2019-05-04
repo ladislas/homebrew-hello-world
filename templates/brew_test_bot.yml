@@ -32,6 +32,7 @@ jobs:
         ln -s "$PWD" "$HOMEBREW_TAP_DIR"
         brew tap --full $(test_bot_repo)
         git log --graph --decorate --oneline
+        git checkout $(System.PullRequest.SourceBranch)
       displayName: Setup environment
 
     - bash: |
