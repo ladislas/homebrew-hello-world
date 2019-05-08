@@ -1,4 +1,4 @@
-# File: templates/brew_test_bot.yml
+# File: azure-templates/brew_test_bot.yml
 
 parameters:
   name: ''
@@ -22,18 +22,7 @@ jobs:
 
   steps:
 
-    - bash: |
-        set -e
-        sudo xcode-select --switch /Applications/$(xcode_version).app/Contents/Developer
-        brew update-reset /usr/local/Homebrew
-        HOMEBREW_TAP_DIR="/usr/local/Homebrew/Library/Taps/$(github_user)/$(github_repo)"
-        mkdir -p "$HOMEBREW_TAP_DIR"
-        rm -rf "$HOMEBREW_TAP_DIR"
-        ln -s "$PWD" "$HOMEBREW_TAP_DIR"
-        brew tap --full $(test_bot_repo)
-        git log --graph --decorate --oneline
-        git checkout $(System.PullRequest.SourceBranch)
-      displayName: Setup environment
+    - template: azure-templates/setup-homebrew-env.yml
 
     - bash: |
         echo UPSTREAM_GIT_URL:      $(UPSTREAM_GIT_URL)

@@ -1,4 +1,4 @@
-# File: templates/brew_test_bot_ci_upload.yml
+# File: azure-templates/brew_test_bot_ci_upload.yml
 
 parameters:
   name: ''
@@ -20,18 +20,7 @@ jobs:
         #sshPassphrase: $(ssh_passphrase) # Optional
         sshKeySecureFile: $(ssh_secure_file)
 
-    - bash: |
-        set -e
-        sudo xcode-select --switch /Applications/Xcode_10.2.app/Contents/Developer
-        brew update-reset /usr/local/Homebrew
-        HOMEBREW_TAP_DIR="/usr/local/Homebrew/Library/Taps/$(github_user)/$(github_repo)"
-        mkdir -p "$HOMEBREW_TAP_DIR"
-        rm -rf "$HOMEBREW_TAP_DIR"
-        ln -s "$PWD" "$HOMEBREW_TAP_DIR"
-        brew install tree
-        brew tap --full $(test_bot_repo)
-        git log --graph --decorate --oneline
-      displayName: Setup environment
+    - template: azure-templates/setup-homebrew-env.yml
 
     - task: DownloadPipelineArtifact@1
       inputs:
