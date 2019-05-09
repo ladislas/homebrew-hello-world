@@ -20,7 +20,7 @@ jobs:
         #sshPassphrase: $(ssh_passphrase) # Optional
         sshKeySecureFile: $(ssh_secure_file)
 
-    - template: azure-templates/setup-homebrew-env.yml
+    - template: setup-homebrew-env.yml
 
     - task: DownloadPipelineArtifact@1
       inputs:

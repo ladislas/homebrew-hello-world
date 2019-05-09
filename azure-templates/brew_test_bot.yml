@@ -22,7 +22,7 @@ jobs:
 
   steps:
 
-    - template: azure-templates/setup-homebrew-env.yml
+    - template: setup-homebrew-env.yml
 
     - bash: |
         echo UPSTREAM_GIT_URL:      $(UPSTREAM_GIT_URL)
