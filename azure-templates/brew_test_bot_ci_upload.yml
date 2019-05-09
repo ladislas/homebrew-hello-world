@@ -22,9 +22,9 @@ jobs:
 
     - template: setup-ci-env.yml
 
-      # When working on a fork of homebrew/test-bot, run this step to tap your
-      # repository and checkout the correct feature branch
-    - template: tap-dev-test-bot.yml
+    # When working on a fork of homebrew/test-bot, run this step to tap your
+    # repository and checkout the correct feature branch
+    # - template: tap-dev-test-bot.yml
 
 
     - task: DownloadPipelineArtifact@1
