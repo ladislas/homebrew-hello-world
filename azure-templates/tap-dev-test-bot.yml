@@ -1,0 +1,10 @@
+# file: azure-templates/tap-dev-test-bot.yml
+
+steps:
+
+  - bash: |
+      brew tap --full $(test_bot_repo)
+      cp -r $(brew_tap_path)/$(test_bot_repo) $(brew_tap_path)/$(test_bot_homebrew_repo)
+      git -C $(brew_tap_path)/$(test_bot_homebrew_repo) checkout -b $(test_bot_repo_branch) origin/$(test_bot_repo_branch)
+      git -C $(brew_tap_path)/$(test_bot_homebrew_repo) log --graph --decorate --oneline
+    displayName: Tap $(test_bot_repo) for development purposes
