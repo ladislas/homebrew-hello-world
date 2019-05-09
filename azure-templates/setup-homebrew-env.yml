@@ -9,6 +9,12 @@ steps:
     displayName: Setup homebrew
 
   - bash: |
+      brew tap --full $(test_bot_repo)
+      cp -r $(brew_tap_path)/$(test_bot_repo) $(brew_tap_path)/$(test_bot_homebrew_repo)
+      git -C $(brew_tap_path)/$(test_bot_homebrew_repo) chekcout -b $(test_bot_repo_branch) origin/$(test_bot_repo_branch)
+    displayName: Tap $(test_bot_repo) for development purposes
+
+  - bash: |
       HOMEBREW_TAP_DIR="/usr/local/Homebrew/Library/Taps/$(github_user)/$(github_repo)"
       mkdir -p "$HOMEBREW_TAP_DIR"
       rm -rf "$HOMEBREW_TAP_DIR"
