@@ -23,6 +23,8 @@ jobs:
   steps:
 
     - template: setup-homebrew-env.yml
+      parameters:
+        xcode: $(xcode_version)
 
     - bash: |
         echo UPSTREAM_GIT_URL:      $(UPSTREAM_GIT_URL)

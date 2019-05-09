@@ -1,5 +1,8 @@
 # File: azure-templates/setup-homebrew-env.yml
 
+parameters:
+   xcode: 'Xcode_10.2'
+
 steps:
 
   - bash: |
@@ -7,11 +10,14 @@ steps:
       sudo xcode-select --switch /Applications/$(xcode_version).app/Contents/Developer
       brew update-reset /usr/local/Homebrew
     displayName: Setup homebrew
+    variables:
+      xcode_version: ${{ parameters.xcode }}
 
   - bash: |
       brew tap --full $(test_bot_repo)
       cp -r $(brew_tap_path)/$(test_bot_repo) $(brew_tap_path)/$(test_bot_homebrew_repo)
       git -C $(brew_tap_path)/$(test_bot_homebrew_repo) checkout -b $(test_bot_repo_branch) origin/$(test_bot_repo_branch)
+      git -C $(brew_tap_path)/$(test_bot_homebrew_repo) log --graph --decorate --oneline
     displayName: Tap $(test_bot_repo) for development purposes
 
   - bash: |
