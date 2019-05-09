@@ -7,11 +7,11 @@ steps:
 
   - bash: |
       set -e
-      sudo xcode-select --switch /Applications/$(xcode_version).app/Contents/Developer
+      sudo xcode-select --switch /Applications/$XCODE_VERSION.app/Contents/Developer
       brew update-reset /usr/local/Homebrew
     displayName: Setup homebrew
-    variables:
-      xcode_version: ${{ parameters.xcode }}
+    env:
+      XCODE_VERSION: ${{ parameters.xcode }}
 
   - bash: |
       brew tap --full $(test_bot_repo)
