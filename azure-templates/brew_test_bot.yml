@@ -36,15 +36,16 @@ jobs:
     - script: |
         FORMULA="$(ls *.bottle.json | sed 's/--.*//g')"
         echo "Formula name is: $FORMULA"
-        echo '##vso[task.setvariable variable=formula]$FORMULA'
+        echo "##vso[task.setvariable variable=formula;isOutput=true]$FORMULA"
       displayName: Set formula variable
+      name: set_formula_name
 
     - bash: |
         cp *.bottle.* $(Build.ArtifactStagingDirectory)
-      displayName: Copy json & bottle files
+      displayName: Copy json & bottle files for $(set_formula_name.formula)
 
     - task: PublishPipelineArtifact@0
       inputs:
-        artifactName: $(formula)-bottle-$(artifact_name)
+        artifactName: $(set_formula_name.formula)-bottle-$(artifact_name)
         targetPath: $(Build.ArtifactStagingDirectory)
-      displayName: Publish $(formula)-bottle-$(artifact_name)
+      displayName: Publish $(set_formula_name.formula)-bottle-$(artifact_name)
