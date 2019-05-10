@@ -62,10 +62,10 @@ jobs:
 
     - bash: |
         cp *.bottle.* $(Build.ArtifactStagingDirectory)
-      displayName: Copy json & bottle files for $(set_formula_name.formula)
+      displayName: Copy json & bottle files
 
     - task: PublishPipelineArtifact@0
       inputs:
         artifactName: $(set_formula_name.formula)-bottle-$(artifact_name)
         targetPath: $(Build.ArtifactStagingDirectory)
-      displayName: Publish $(set_formula_name.formula)-bottle-$(artifact_name)
+      displayName: Publish formula-bottle-$(artifact_name)
