@@ -23,6 +23,7 @@ jobs:
   steps:
 
     # Setup CI environment
+    - template: setup-ci-env.yml
       parameters:
         xcode: $(xcode_version)
 
