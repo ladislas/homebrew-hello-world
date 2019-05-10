@@ -2,8 +2,8 @@ class HelloWorld < Formula
   desc "Simple C++ Hello World CLI to play with Homebrew"
   homepage "https://github.com/ladislas/hello-world"
 
-  url "https://github.com/ladislas/hello-world/archive/5.0.0.tar.gz"
-  sha256 "b993de666a77401ec3f1a23f4215bc3b4c001abc82c0c35f912dcfedac938973"
+  url "https://github.com/ladislas/hello-world/archive/6.0.0.tar.gz"
+  sha256 "d79343fe8bc1e2a9870ffba4ab2c2108a6e3cf75ad9a989eb56baffc6d8d215f"
 
   bottle do
     root_url "https://dl.bintray.com/ladislas/bottles-hello-world"
