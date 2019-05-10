@@ -1,4 +1,4 @@
-# File: azure-templates/setup-ci-env.yml
+# File: .azure-ci/setup-ci-env.yml
 
 parameters:
    xcode: 'Xcode_10.2'
@@ -8,7 +8,7 @@ steps:
   - bash: |
       set -e
       sudo xcode-select --switch /Applications/$XCODE_VERSION.app/Contents/Developer
-      brew update-reset /usr/local/Homebrew
+      brew update
     displayName: Setup CI Environment
     env:
       XCODE_VERSION: ${{ parameters.xcode }}

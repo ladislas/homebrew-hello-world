@@ -1,4 +1,4 @@
-# file: azure-templates/tap-dev-test-bot.yml
+# file: .azure-ci/tap-dev-test-bot.yml
 
 steps:
 

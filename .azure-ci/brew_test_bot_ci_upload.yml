@@ -1,4 +1,4 @@
-# File: azure-templates/brew_test_bot_ci_upload.yml
+# File: .azure-ci/brew_test_bot_ci_upload.yml
 
 parameters:
   name: ''
@@ -24,8 +24,7 @@ jobs:
 
     # When working on a fork of homebrew/test-bot, run this step to tap your
     # repository and checkout the correct feature branch
-    - template: tap-dev-test-bot.yml
-
+    # - template: tap-dev-test-bot.yml
 
     - task: DownloadPipelineArtifact@1
       inputs:

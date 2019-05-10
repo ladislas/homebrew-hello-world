@@ -72,21 +72,21 @@ stages:
     displayName: Create bottles
 
     jobs:
-      - template: azure-templates/brew_test_bot.yml
+      - template: .azure-ci/brew_test_bot.yml
         parameters:
           name: brew_test_bot_macOS_10_14
           displayName: for macOS Mojave (10.14)
           vmImage: macOS-10.14
           xcode: Xcode_10.2
 
-      - template: azure-templates/brew_test_bot.yml
+      - template: .azure-ci/brew_test_bot.yml
         parameters:
           name: brew_test_bot_macOS_10_13
           displayName: for macOS High Sierra (10.13)
           vmImage: macOS-10.13
           xcode: Xcode_10.1
 
-      # - template: azure-templates/brew_test_bot.yml
+      # - template: .azure-ci/brew_test_bot.yml
       #   parameters:
       #     name: brew_test_bot_ubuntu_16_04
       #     displayName: for Ubuntu 16.04
@@ -101,6 +101,6 @@ stages:
     condition: succeeded()
 
     jobs:
-      - template: azure-templates/brew_test_bot_ci_upload.yml
+      - template: .azure-ci/brew_test_bot_ci_upload.yml
         parameters:
           name: Upload bottles
