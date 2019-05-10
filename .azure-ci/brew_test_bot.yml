@@ -22,13 +22,15 @@ jobs:
 
   steps:
 
-      # Setup CI environment and install your tap
-    - template: setup-ci-env.yml
+    # Setup CI environment
       parameters:
         xcode: $(xcode_version)
 
-      # This step is needed for brew test-bot to automatically find the
-      # formulae modified by the PR
+    # Install your tap
+    - template: install-tap.yml
+
+    # This step is needed for brew test-bot to automatically find the
+    # formulae modified by the PR
     - bash: |
         git log --graph --decorate --oneline
         echo \n\n
@@ -37,8 +39,8 @@ jobs:
         git log --graph --decorate --oneline
       displayName: Checkout PR source branch $(System.PullRequest.SourceBranch)
 
-      # When working on a fork of homebrew/test-bot, run this step to tap your
-      # repository and checkout the correct feature branch
+    # When working on a fork of homebrew/test-bot, run this step to tap your
+    # repository and checkout the correct feature branch
     - template: tap-dev-test-bot.yml
 
     - bash: |
