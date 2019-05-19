@@ -8,8 +8,8 @@ class HelloWorld < Formula
   bottle do
     root_url "https://dl.bintray.com/ladislas/bottles-hello-world"
     cellar :any_skip_relocation
-    sha256 "04e98bdd4e6cb409f6c1ec450983abca0e8a67fcc040692b424bf51d773c6cb4" => :mojave
-    sha256 "c12f3353db4871492fc587a6a4932fce1ed0bcb4e8d11315439f85afb77115a7" => :high_sierra
+    sha256 "e2238bec4f28d370fe0a597e7b12278cc3a985baf3be14aae6ede1491b25957e" => :mojave
+    sha256 "74115e17ea922d8f33996cb8e7217465e2642a10677df8bef22ee2474f891da1" => :high_sierra
   end
 
   def install
